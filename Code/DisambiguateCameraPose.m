@@ -14,5 +14,27 @@ function [C,R,X] = DisambiguateCameraPose(Cset, Rset, Xset)
 % number of points satisfying the cheirality condition.
 
 %% Your code goes here
+nConfig = numel(Cset);
+assert(nConfig == 4, 'Number of configurations not correct...');
+
+nFront = zeros(1, nConfig);
+
+for i = 1:nConfig
+    
+    C = Cset{i};
+    R = Rset{i};
+    X = Xset{i};
+    
+    N = size(X, 1);
+    ch = (X - repmat(C', N, 1)) * R(3, :)';
+    nFront(i) = sum(ch > 0);
+end
+
+iOut = find(nFront == max(nFront));
+
+C = Cset{iOut};
+R = Rset{iOut};
+X = Xset{iOut};
+
 
 end
