@@ -9,7 +9,7 @@ function [y1,y2,idx] = GetInliersRANSAC(x1,x2)
 
 %% Your Code goes here
 maxIter = 1000;
-threshold = 0.1;
+threshold = 0.001;
 
 N = size(x1, 1);
 bestNinliers = 0;
@@ -33,7 +33,9 @@ end
 
 
 function d = evaluateF(x1, x2, F)
-    tmp = x2 * F;
-    tmp = tmp .* x1; 
+    N = size(x1, 1);
+
+    tmp = [x2 ones(N, 1)] * F;
+    tmp = tmp .* [x1 ones(N, 1)]; 
     d = abs(sum(tmp, 2));
 end
