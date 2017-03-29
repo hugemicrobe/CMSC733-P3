@@ -25,8 +25,8 @@ end
 
 function f = geoError(K, C1, R1, C2, R2, x1, x2, params)
     X = decodeParameters(params);
-    assert(size(x1, 1) == size(X, 1), 'The number of matching points in the first image are not the same');
-    assert(size(x2, 1) == size(X, 1), 'The number of matching points in the second are not the same');
+    assert(size(x1, 1) == size(X, 1), 'The numbers of matching points in the first image are not the same');
+    assert(size(x2, 1) == size(X, 1), 'The numbers of matching points in the second are not the same');
     
     % Do the projection and calculate geo error
     N = size(X, 1);
