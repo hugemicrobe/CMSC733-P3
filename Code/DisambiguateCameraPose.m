@@ -30,7 +30,8 @@ for i = 1:nConfig
     nFront(i) = sum(ch > 0);
 end
 
-iOut = find(nFront == max(nFront));
+% iOut = find(nFront == max(nFront));
+[~, iOut] = max(nFront);
 
 C = Cset{iOut};
 R = Rset{iOut};
