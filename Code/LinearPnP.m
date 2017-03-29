@@ -9,6 +9,7 @@ function [C, R] = LinearPnP(X, x, K)
 %% Your Code goes here 
 N = size(X, 1);
 assert(size(x, 1) == N, 'The numbers of the points are not the same');
+assert(N < 6, 'The numbers of the matching is not enough to solve LinearPnP');
 A = zeros(N * 3, 12);
 homX = [X; ones(N, 1)];
 homx = [x; ones(N, 1)];
