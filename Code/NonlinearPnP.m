@@ -32,7 +32,7 @@ assert(size(x, 1) == size(X, 1), 'The numbers of matching points in the image ar
 % Do the projection and calculate geo error
 N = size(X, 1);
 P = K * [R, -R * C];
-homX = [X; ones(N, 1)]; % N x 4
+homX = [X, ones(N, 1)]; % N x 4
 pX = P * homX'; % 3 x N
 pX = pX'; % N x 3
 pX = pX ./ repmat(pX(:, 3), 1, 3);

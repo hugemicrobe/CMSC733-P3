@@ -26,6 +26,18 @@ K = [568.996140852 0 643.21055941;
      0 0 1];
 
 %% extract camera pose
-
+F = EstimateFundamentalMatrix(x1, x2);
+E = EssentialMatrixFromFundamentalMatrix(F, K);
+[Cset, Rset] = ExtractCameraPose(E);
 
 %% linear triangulation
+Xset = cell(4, 1);
+for i = 1:4
+    Xset{i} = LinearTriangulation(K, zeros(3, 1), eye(3), Cset{i}, Rset{i}, x1, x2);
+end
+
+%% Disambihuate Camera Pose
+[C, R, X0] = DisambiguateCameraPose(Cset, Rset, Xset);
+
+%% Nonlinear triangulation
+X = NonlinearTriangulation(K, zeros(3, 1), eye(3), C, R, x1, x2, X0);
