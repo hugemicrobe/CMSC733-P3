@@ -31,15 +31,15 @@ assert(size(x2, 1) == size(X, 1), 'The numbers of matching points in the second 
 % Do the projection and calculate geo error
 N = size(X, 1);
 f = zeros(N, 2, 2);
-P1 = K * [R1, -R1*C1];
-P2 = K * [R2, -R2*C2];
-homX = [X; ones(N, 1)]; % N x 3
+P1 = K * [R1, -R1 * C1];
+P2 = K * [R2, -R2 * C2];
+homX = [X; ones(N, 1)]; % N x 4
 pX1 = P1 * homX'; % 3 x N
 pX2 = P2 * homX'; % 3 x N
 pX1 = pX1'; % N x 3
 pX2 = pX2'; % N x 3
-pX1 = pX1 ./ repmat(pX1(:, 3), 3, 1); % normalize
-pX2 = pX2 ./ repmat(pX1(:, 3), 3, 1); % normalize
+pX1 = pX1 ./ repmat(pX1(:, 3), 1, 3); % normalize
+pX2 = pX2 ./ repmat(pX1(:, 3), 1, 3); % normalize
 % error
 f(:, :, 1) = x1 - pX1(:, 1:2);
 f(:, :, 2) = x2 - pX2(:, 1:2);
