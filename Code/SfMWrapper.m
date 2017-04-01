@@ -1,11 +1,7 @@
 clear clc;
 
 %% load matching file
-load('../Data/matchesMeta.mat', 'matches', 'hasMatches');
-V = [];
-Mx = [];
-My = [];
-C = [];
+load('../Data/matchesMeta.mat', 'Mx', 'My', 'V', 'C');
 
 %% load K here
 K = [568.996140852 0 643.21055941;

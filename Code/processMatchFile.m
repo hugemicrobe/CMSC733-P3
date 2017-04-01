@@ -4,42 +4,53 @@ matchFileDir = '../Data';
 
 nImages = 6;
 
+Mx = [];
+My = [];
+V = [];
+C = [];
 
-matches = cell(nImages);
-hasMatches = false(nImages);
 
 for i = 1:nImages-1    
     filename = sprintf('%s/matching%d.txt', matchFileDir, i);
     fid = fopen(filename);
     
-    % skip the first line
-    fgets(fid);
-    tline = fgets(fid);
+    % the first line: 'nFeatures: [number]'
+    fscanf(fid, '%s', 1);
+    nFeats = fscanf(fid, '%d', 1);
     
-    while ischar(tline)
-        m = str2num(tline);
+    % store matching, visibility, color info for the current image
+    curr_x = zeros(nFeats, nImages);
+    curr_y = zeros(nFeats, nImages);
+    curr_V = zeros(nFeats, nImages);
+    curr_C = zeros(nFeats, 3);
+    
+    for n = 1:nFeats
         
-        assert(numel(m) == 3*m(1)+3, 'Number of matches not correct ...');
+        matches = fscanf(fid, '%d', 1);
+        curr_C(n, :) = fscanf(fid, '%d %d %d', 3);
+        curr_x(n, i) = fscanf(fid, '%f', 1);
+        curr_y(n, i) = fscanf(fid, '%f', 1);
+        curr_V(n, i) = 1;
         
-        for k = 1:m(1)-1
-            j = m(3*k+4);
-            
-            if hasMatches(i, j)
-                matches{i, j}{1} = [matches{i, j}{1}; m(5) m(6)];
-                matches{i, j}{2} = [matches{i, j}{2}; m(3*k+5) m(3*k+6)];
-            else
-                matches{i, j}{1} = [m(5) m(6)];
-                matches{i, j}{2} = [m(3*k+5) m(3*k+6)];
-                hasMatches(i, j) = true;
-            end    
-            
-        end    
-        
-        tline = fgets(fid);
-    end
+        for k = 1:matches-1
+            j = fscanf(fid, '%d', 1);
+            curr_x(n, j) = fscanf(fid, '%f', 1);
+            curr_y(n, j) = fscanf(fid, '%f', 1);
+            curr_V(n, j) = 1;
+        end
+    end    
+    
+    Mx = [Mx; curr_x];
+    My = [My; curr_y];
+    V = [V; curr_V];
+    C = [C; curr_C];
+    
     
     fclose(fid);
     
 end
-    save('../Data/matchesMeta.mat', 'matches', 'hasMatches');
+
+    C = cast(C, 'uint8');
+    V = cast(V, 'logical');
+    save('../Data/matchesMeta.mat', 'Mx', 'My', 'V', 'C');
 end
