@@ -1,23 +1,38 @@
 clear clc;
 
+%% load matching file
 load('../Data/matchesMeta.mat', 'matches', 'hasMatches');
+V = [];
+Mx = [];
+My = [];
+C = [];
 
+imageNum = size(V, 2);
+
+%% Find inliers between every image pair
+inliersV = outliersRejection(Mx, My, V);
+
+%% First image pair
+initialImage1 = 1;
+initialInage2 = 4;
+usedIdx = [initialImage1, initialInage2];
+
+idx1 = find(inliersV(:, initialImage1) == 1);
+idx2 = find(inliersV(:, initialImage2) == 1);
+[x1, x2] = Get
 
 %% test code for processed data
-
-ii = 1;
-jj = 3;
-
+   
 % display matched features
-I1 = imread(sprintf('../Data/%d.jpg', ii));
-I2 = imread(sprintf('../Data/%d.jpg', jj));
+I1 = imread(sprintf('../Data/%d.jpg', initialImage1));
+I2 = imread(sprintf('../Data/%d.jpg', initialInage2));
 %dispMatchedFeatures(I1, I2, matches{1, 2}{1}, matches{1, 2}{2}, 'montage');
 
 %F = EstimateFundamentalMatrix(matches{1, 2}{1}, matches{1, 2}{2});
-[x1, x2] = GetInliersRANSAC(matches{ii, jj}{1}, matches{ii, jj}{2});
+[x1, x2] = GetInliersRANSAC(matches{initialImage1, initialInage2}{1}, matches{initialImage1, initialInage2}{2});
 dispMatchedFeatures(I1, I2, x1, x2, 'montage');
 
-fprintf('Original #matches = %d, Refined #matches = %d\n', size(matches{ii, jj}{1}, 1), size(x1, 1));
+fprintf('Original #matches = %d, Refined #matches = %d\n', size(matches{initialImage1, initialInage2}{1}, 1), size(x1, 1));
 
 
 %% load K here
@@ -41,3 +56,9 @@ end
 
 %% Nonlinear triangulation
 X = NonlinearTriangulation(K, zeros(3, 1), eye(3), C, R, x1, x2, X0);
+
+for i = 1:imageNum
+   if (ismember(i, usedIdx)) % has been processed
+       continue
+   end
+end
