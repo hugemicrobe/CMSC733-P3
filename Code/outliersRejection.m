@@ -6,8 +6,12 @@ outV = V;
 
 for i = 1:(imageNum - 1)
     for j = i:imageNum
-        [match1, match2] = findCommonMatch(Mx, My, V, i, j);
+        
+        % the case that #of matches < 8
+        [match1, match2, idx] = findCommonMatch(Mx, My, V, i, j);
         [~, ~, inliers] = GetInliersRANSAC(match1, match2);
+        %
+        % idx(idx) = (idx(idx) & ~inliers) <--- if use logical type idx
         outLiersIdx = idx(~inliers);
         outV(outLiersIdx, i) = 0;
         outV(outLiersIdx, j) = 0;
