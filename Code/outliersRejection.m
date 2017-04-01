@@ -6,9 +6,7 @@ outV = V;
 
 for i = 1:(imageNum - 1)
     for j = i:imageNum
-        idx = find((outV(:, i) == 1) & (outV(:, j) == 1));
-        match1 = [Mx(idx, i) My(idx, i)];
-        match2 = [Mx(idx, j) My(idx, j)];
+        [match1, match2] = findCommonMatch(Mx, My, V, i, j);
         [~, ~, inliers] = GetInliersRANSAC(match1, match2);
         outLiersIdx = idx(~inliers);
         outV(outLiersIdx, i) = 0;

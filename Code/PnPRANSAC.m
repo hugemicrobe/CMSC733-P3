@@ -25,7 +25,7 @@ for i = 1:maxIter
         bestNinliers = sum(inliers);
         C = estC;
         R = estR;
-        idx = find(inliers);
+        idx = inliers;
     end
 end
 
