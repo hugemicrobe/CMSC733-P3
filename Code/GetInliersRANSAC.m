@@ -8,7 +8,7 @@ function [y1,y2,idx] = GetInliersRANSAC(x1,x2)
 
 
 %% Your Code goes here
-maxIter = 1000;
+maxIter = 3000;
 threshold = 0.001;
 
 N = size(x1, 1);
