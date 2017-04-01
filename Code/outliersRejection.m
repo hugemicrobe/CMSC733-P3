@@ -12,9 +12,11 @@ for i = 1:(imageNum - 1)
         [~, ~, inliers] = GetInliersRANSAC(match1, match2);
         %
         % idx(idx) = (idx(idx) & ~inliers) <--- if use logical type idx
-        outLiersIdx = idx(~inliers);
-        outV(outLiersIdx, i) = 0;
-        outV(outLiersIdx, j) = 0;
+%         outLiersIdx = idx(~inliers);
+%         outV(outLiersIdx, i) = 0;
+%         outV(outLiersIdx, j) = 0;
+        outV(~inliers, i) = 0;
+        outV(~inliers, j) = 0;
     end
 end
 

@@ -62,14 +62,16 @@ for i = 1:(imageNum - 2)
 %     X = resultX(inliersIdx, :);
     [newC, newR] = NonlinearPnP(X, x1, K, newC, newR);
     %% add to result
-    resultC{nextImgIdx} = newC;
-    resultR{nextImgIdx} = newR;
+    resultC{end + 1} = newC;
+    resultR{end + 1} = newR;
     %% register new 3D points
     [resultX, reconstructedX, reconstructedV] = register3DPoints(K, Mx, My, inliersV, ...
                                                     nextImgIdx, resultC, resultR, resultX, ...
                                                     reconstructedX, reconstructedV, usedIdx);
     usedIdx(end + 1) = nextImgIdx;
     %% BA
+    [resultC, resultR, resultX] = BundleAdjustment(K, resultC, resultR, resultX, ...
+                                    reconstructedX, Mx(:, usedIdx), My(:, usedIdx));
 end
 
 %% test code for processed data
