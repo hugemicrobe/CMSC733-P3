@@ -9,8 +9,8 @@ function [C,R,idx] = PnPRANSAC(X, x, K)
 % idx : inlier index
 
 %% Your code goes here
-maxIter = 1000;
-threshold = 1;
+maxIter = 3000;
+threshold = 20;
 
 N = size(x, 1);
 bestNinliers = 0;
