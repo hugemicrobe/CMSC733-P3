@@ -11,6 +11,7 @@ function X = NonlinearTriangulation(K, C1, R1, C2, R2, x1, x2, X0)
 % opts = optimoptions(@lsqnonlin, 'Algorithm', 'levenberg-marquardt', 'MaxIter', 1e3, 'Display', 'iter');
 opts = optimoptions(@lsqnonlin, 'Algorithm', 'levenberg-marquardt', 'TolX', 1e-64, 'TolFun', 1e-64, 'MaxFunEvals', 1e64, 'MaxIter', 1e64, 'Display', 'none');
 N = size(X0, 1);
+X = zeros(N, 3);
 for i = 1:N
     paramsFinal = lsqnonlin(@(params)geoError(K, C1, R1, C2, R2, x1(i, :), x2(i, :), params), X0(i, :)', [], [], opts);
     X(i, :) = paramsFinal';
