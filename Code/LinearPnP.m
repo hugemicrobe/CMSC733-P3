@@ -11,8 +11,8 @@ N = size(X, 1);
 assert(size(x, 1) == N, 'The numbers of the points are not the same');
 assert(N > 5, 'The numbers of the matching is not enough to solve LinearPnP');
 A = zeros(N * 3, 12);
-homX = [X; ones(N, 1)];
-homx = [x; ones(N, 1)];
+homX = [X, ones(N, 1)];
+homx = [x, ones(N, 1)];
 newHomx = K \ homx;
 for i = 1:N
     x_temp = [0, -1,  newHomx(i, 2); ...
