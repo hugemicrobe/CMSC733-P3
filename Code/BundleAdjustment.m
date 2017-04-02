@@ -22,17 +22,22 @@ X3D = X(validX, :);
 featuresNum = size(X3D, 1);
 framesNum = length(Cset);
 measurements = zeros(2 * featuresNum, framesNum);
-camProj = cell(framesNum, 1);
+% camProj = cell(framesNum, 1);
+camPose = cell(framesNum, 1);
 
 for i = 1:framesNum
-    camProj{i} = K * [Rset{i}, -Rset{i}*Cset{i}];
+    % camProj{i} = K * [Rset{i}, -Rset{i}*Cset{i}];
+    camPose{i} = [Rset{i}, Cset{i}];
     x = [Mx(validX, i), My(validX, i)];
     measurements(:, i) = reshape(x', [], 1);
 end
 
-[newCamProj, newX] = sba_wrapper(measurements, camProj, X3D, K);
+% [newCamProj, newX] = sba_wrapper(measurements, camProj, X3D, K);
+[newCamPose, newX] = sba_wrapper(measurements, camPose, X3D, K);
 Xset(validX, :) = newX;
-[Cset, Rset] = cellfun(@(proj) extractCamPose(K, proj), newCamProj, 'UniformOutput', false);
+% [Cset, Rset] = cellfun(@(proj) extractCamPose(K, proj), newCamProj, 'UniformOutput', false);
+Cset = cellfun(@(pose) pose(:, 4), newCamPose, 'UniformOutput', false);
+Rset = cellfun(@(pose) pose(1:3, 1:3), newCamPose, 'UniformOutput', false);
 end
 
 function [C, R] = extractCamPose(K, P)

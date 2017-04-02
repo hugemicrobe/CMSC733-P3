@@ -13,7 +13,8 @@ spmask=sparse([], [], [], 1, nFrames);
 
 % Concaternate all camera poses into cams vector
 for i = 1 : nFrames
-    P = K \ cP{i}; % [R, -R*C]
+    % P = K \ cP{i}; % [R, -R*C]
+    P = cP{i};
     % q = Matrix2Quaternion(inv(K)*cP{i}(1:3,1:3));
     % q = QuaternionNormalization(q);
     q = R2q(P(1:3, 1:3));
@@ -56,7 +57,8 @@ for i = 1 : nFrames
     R = q2R(camera(1:4));
     C = camera(5:end); % -R*C
     % cP{i} = K*R*[eye(3), -C];
-    cP{i} = K * [R, C];
+    % cP{i} = K * [R, C];
+    cP{i} = [R, C];
 end
 
 X = [];
