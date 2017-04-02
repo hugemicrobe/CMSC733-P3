@@ -1,5 +1,7 @@
 clear clc;
+clear;
 
+addpath(genpath('.'))
 %% load matching file
 load('../Data/matchesMeta.mat', 'Mx', 'My', 'V', 'Color');
 
@@ -36,12 +38,13 @@ end
 
 %% Nonlinear triangulation
 X = NonlinearTriangulation(K, zeros(3, 1), eye(3), C, R, x1, x2, X0);
+disp('NonlinearTriangulation done...')
 
 %% Add to result
-resultC{initialImage1} = zeros(3, 1);
-resultR{initialImage1} = eye(3);
-resultC{initialImage2} = C;
-resultR{initialImage2} = R;
+resultC{1} = zeros(3, 1);
+resultR{1} = eye(3);
+resultC{2} = C;
+resultR{2} = R;
 resultX = zeros(size(inliersV, 1), 3);
 resultX(idx, :) = X;
 reconstructedX = false(size(inliersV, 1), 1);
@@ -63,6 +66,7 @@ for i = 1:(imageNum - 2)
 %     x1 = [Mx(inliersIdx, nextImgIdx), My(inliersIdx, nextImgIdx)];
 %     X = resultX(inliersIdx, :);
     [newC, newR] = NonlinearPnP(X, x1, K, newC, newR);
+    disp('NonlinearPnP done...')
     %% add to result
     resultC{end + 1} = newC;
     resultR{end + 1} = newR;
@@ -70,10 +74,13 @@ for i = 1:(imageNum - 2)
     [resultX, reconstructedX, reconstructedV] = register3DPoints(K, Mx, My, inliersV, ...
                                                     nextImgIdx, resultC, resultR, resultX, ...
                                                     reconstructedX, reconstructedV, usedIdx);
+    disp('Register 3D points done')
     usedIdx(end + 1) = nextImgIdx;
     %% BA
     [resultC, resultR, resultX] = BundleAdjustment(K, resultC, resultR, resultX, ...
                                     reconstructedX, Mx(:, usedIdx), My(:, usedIdx));
+    disp('BA done...')
+    disp(sprintf('Reconstruct points from fame %d successful', nextImgIdx))
 end
 
 %% test code for processed data

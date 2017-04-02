@@ -15,7 +15,6 @@ X = zeros(N, 3);
 for i = 1:N
     paramsFinal = lsqnonlin(@(params)geoError(K, C1, R1, C2, R2, x1(i, :), x2(i, :), params), X0(i, :)', [], [], opts);
     X(i, :) = paramsFinal';
-    disp(sprintf('Point %d optimized', i))
 end
 
 end
