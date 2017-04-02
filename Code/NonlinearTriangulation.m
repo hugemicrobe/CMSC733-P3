@@ -40,7 +40,7 @@ pX2 = P2 * homX'; % 3 x N
 pX1 = pX1'; % N x 3
 pX2 = pX2'; % N x 3
 pX1 = pX1 ./ repmat(pX1(:, 3), 1, 3); % normalize
-pX2 = pX2 ./ repmat(pX1(:, 3), 1, 3); % normalize
+pX2 = pX2 ./ repmat(pX2(:, 3), 1, 3); % normalize
 % error
 f(:, :, 1) = x1 - pX1(:, 1:2);
 f(:, :, 2) = x2 - pX2(:, 1:2);

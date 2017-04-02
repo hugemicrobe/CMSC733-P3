@@ -83,7 +83,7 @@ I2 = imread(sprintf('../Data/%d.jpg', initialImage2));
 
 %F = EstimateFundamentalMatrix(matches{1, 2}{1}, matches{1, 2}{2});
 [x2, x2] = GetInliersRANSAC(matches{initialImage1, initialImage2}{1}, matches{initialImage1, initialImage2}{2});
-dispMatchedFeatures(I1, I2, x2, x2, 'montage');
+dispMatchedFeatures(I1, I2, x1, x2, 'montage');
 
 fprintf('Original #matches = %d, Refined #matches = %d\n', size(matches{initialImage1, initialImage2}{1}, 1), size(x2, 1));
 
