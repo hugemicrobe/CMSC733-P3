@@ -12,6 +12,7 @@ imageNum = size(V, 2);
 
 %% Find inliers between every image pair
 inliersV = outliersRejection(Mx, My, V);
+disp('Outliers rejection done...')
 
 %% First image pair
 initialImage1 = 1;
@@ -49,6 +50,7 @@ reconstructedV = false(size(inliersV, 1), imageNum);
 reconstructedV(idx, initialImage1) = 1;
 reconstructedV(idx, initialImage2) = 1;
 usedIdx = [initialImage1, initialImage2];
+disp('First pair of images done...')
 
 for i = 1:(imageNum - 2)
     %% find next image to process

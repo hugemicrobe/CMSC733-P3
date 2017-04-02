@@ -8,29 +8,22 @@ function X = NonlinearTriangulation(K, C1, R1, C2, R2, x1, x2, X0)
 % (INPUT and OUTPUT) X: Nx3 matrix whose row represents 3D triangulated point.
 
 %% Your code goes here
-params0 = encodeParameters(X0);
 % opts = optimoptions(@lsqnonlin, 'Algorithm', 'levenberg-marquardt', 'MaxIter', 1e3, 'Display', 'iter');
-opts = optimoptions(@lsqnonlin, 'Algorithm', 'levenberg-marquardt', 'TolX', 1e-64, 'TolFun', 1e-64, 'MaxFunEvals', 1e64, 'MaxIter', 1e64, 'Display', 'iter');
-paramsFinal = lsqnonlin(@(params)geoError(K, C1, R1, C2, R2, x1, x2, params), params0, [], [], opts);
-X = decodeParameters(paramsFinal);
-
+opts = optimoptions(@lsqnonlin, 'Algorithm', 'levenberg-marquardt', 'TolX', 1e-64, 'TolFun', 1e-64, 'MaxFunEvals', 1e64, 'MaxIter', 1e64, 'Display', 'none');
+N = size(X0, 1);
+for i = 1:N
+    paramsFinal = lsqnonlin(@(params)geoError(K, C1, R1, C2, R2, x1(i, :), x2(i, :), params), X0(i, :)', [], [], opts);
+    X(i, :) = paramsFinal';
+    disp('Point %d optimized', i)
 end
 
-function params = encodeParameters(X0)
-params = reshape(X0, [], 1);
-end
-
-function X = decodeParameters(params)
-X = reshape(params, [], 3);
 end
 
 function f = geoError(K, C1, R1, C2, R2, x1, x2, params)
-X = decodeParameters(params);
-assert(size(x1, 1) == size(X, 1), 'The numbers of matching points in the first image are not the same');
-assert(size(x2, 1) == size(X, 1), 'The numbers of matching points in the second are not the same');
+X = params';
 
 % Do the projection and calculate geo error
-N = size(X, 1);
+N = size(X, 1); % N = 1
 f = zeros(N, 2, 2);
 P1 = K * [R1, -R1 * C1];
 P2 = K * [R2, -R2 * C2];
