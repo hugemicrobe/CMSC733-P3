@@ -77,8 +77,8 @@ for i = 1:(imageNum - 2)
     disp('Register 3D points done')
     usedIdx(end + 1) = nextImgIdx;
     %% BA
-    %[resultC, resultR, resultX] = BundleAdjustment(K, resultC, resultR, resultX, ...
-    %                                reconstructedX, Mx(:, usedIdx), My(:, usedIdx));
+    [resultC, resultR, resultX] = BundleAdjustment(K, resultC, resultR, resultX, ...
+                                    reconstructedX, Mx(:, usedIdx), My(:, usedIdx));
     disp('BA done...')
     disp(sprintf('Reconstruct points from fame %d successful', nextImgIdx))
 end

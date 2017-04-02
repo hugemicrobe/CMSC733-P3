@@ -32,7 +32,7 @@ end
 
 [newCamProj, newX] = sba_wrapper(measurements, camProj, X3D, K);
 Xset(validX, :) = newX;
-[Cset, Rset] = cellfun(@(proj) extracCamPose(K, proj), newCamProj, 'UniformOutput', false);
+[Cset, Rset] = cellfun(@(proj) extractCamPose(K, proj), newCamProj, 'UniformOutput', false);
 end
 
 function [C, R] = extractCamPose(K, P)

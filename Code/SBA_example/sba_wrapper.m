@@ -13,7 +13,7 @@ spmask=sparse([], [], [], 1, nFrames);
 
 % Concaternate all camera poses into cams vector
 for i = 1 : nFrames
-    P = K \ cP{i};
+    P = K \ cP{i}; % [R, -R*C]
     % q = Matrix2Quaternion(inv(K)*cP{i}(1:3,1:3));
     % q = QuaternionNormalization(q);
     q = R2q(P(1:3, 1:3));
@@ -48,13 +48,13 @@ p0=[reshape(cams', 1, []) reshape(pts3D', 1, [])];
 if isreal(p0) ~= 1
     k = 1;
 end
-[ret, p, info]=sba(nFeatures, 0, nFrames, 1, spmask, p0, 7, 3, pts2D, 2, 'projection', 1e+2, 1, opts, 'motstr', r0, cal);
+[ret, p, info]=sba(nFeatures, 0, nFrames, 1, full(spmask), p0, 7, 3, pts2D, 2, 'projection', 1e+2, 1, opts, 'motstr', r0, cal);
 
 % Retrieve paramters
 for i = 1 : nFrames
     camera = p(7*(i-1)+1:7*i)';
     R = q2R(camera(1:4));
-    C = camera(5:end);
+    C = camera(5:end); % -R*C
     % cP{i} = K*R*[eye(3), -C];
     cP{i} = K * [R, C];
 end
