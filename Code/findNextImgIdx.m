@@ -8,14 +8,10 @@ for i = 1:imageNum
     if (ismember(i, usedIdx))
         continue;
     end
-    n = length(usedIdx);
-    for j = 1:n
-        refImgIdx = usedIdx(j);
-        idx = find(reconstructedX & (inliersV(:, i) == 1) & (inliersV(:, refImgIdx) == 1));
-        if length(idx) > length(maxCommonIdx)
-            maxImgIdx = i;
-            maxCommonIdx = idx;
-        end
+    idx = find(reconstructedX & (inliersV(:, i) == 1));
+    if length(idx) > length(maxCommonIdx)
+        maxImgIdx = i;
+        maxCommonIdx = idx;
     end
 end
 
