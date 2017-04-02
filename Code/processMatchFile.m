@@ -50,7 +50,7 @@ for i = 1:nImages-1
     
 end
 
-    C = cast(C, 'uint8');
+    Color = cast(C, 'uint8');
     V = cast(V, 'logical');
-    save('../Data/matchesMeta.mat', 'Mx', 'My', 'V', 'C');
+    save('../Data/matchesMeta.mat', 'Mx', 'My', 'V', 'Color');
 end

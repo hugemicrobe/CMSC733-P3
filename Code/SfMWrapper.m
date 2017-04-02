@@ -1,7 +1,7 @@
 clear clc;
 
 %% load matching file
-load('../Data/matchesMeta.mat', 'Mx', 'My', 'V', 'C');
+load('../Data/matchesMeta.mat', 'Mx', 'My', 'V', 'Color');
 
 %% load K here
 K = [568.996140852 0 643.21055941;
@@ -41,7 +41,7 @@ resultC{initialImage1} = zeros(3, 1);
 resultR{initialImage1} = eye(3);
 resultC{initialImage2} = C;
 resultR{initialImage2} = R;
-resultX = zeros(size(inliersV, 1), 2);
+resultX = zeros(size(inliersV, 1), 3);
 resultX(idx, :) = X;
 reconstructedX = false(size(inliersV, 1), 1);
 reconstructedX(idx) = 1;
