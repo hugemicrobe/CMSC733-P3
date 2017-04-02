@@ -17,7 +17,7 @@ for i = 1:(imageNum - 1)
         % idx(idx) = ~inliers <--- if use logical type idx
         changeIdx = idx;
         changeIdx(idx) = ~inliers;
-        outV(changeIdx, i) = 0;
+%         outV(changeIdx, i) = 0;
         outV(changeIdx, j) = 0;
     end
 end
