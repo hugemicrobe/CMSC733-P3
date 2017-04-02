@@ -13,6 +13,8 @@ for i = 1:(imageNum - 1)
             continue
         end
         [~, ~, inliers] = GetInliersRANSAC(match1, match2);
+        
+        disp(sprintf('i = %d, j = %d, # of inliers = %d / %d', i, j, sum(inliers), sum(idx)))
         %
         % idx(idx) = ~inliers <--- if use logical type idx
         changeIdx = idx;

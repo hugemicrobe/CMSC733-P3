@@ -10,8 +10,8 @@ for i = 1:n
     refImgIdx = usedIdx(i);
     %% register new 3D points
     commonIdx = find(~outReconstructedX & (inliersV(:, currentImgIdx) == 1) & (inliersV(:, refImgIdx) == 1));
-    x1 = [Mx(commonIdx, currentImgIdx), My(commonIdx, currentImgIdx)];
-    x2 = [Mx(commonIdx, refImgIdx), My(commonIdx, refImgIdx)];
+    x1 = [Mx(commonIdx, refImgIdx), My(commonIdx, refImgIdx)];
+    x2 = [Mx(commonIdx, currentImgIdx), My(commonIdx, currentImgIdx)];
     newX = LinearTriangulation(K, resultC{refImgIdx}, resultR{refImgIdx}, resultC{currentImgIdx}, resultR{currentImgIdx}, x1, x2);
     newX = NonlinearTriangulation(K, resultC{refImgIdx}, resultR{refImgIdx}, resultC{currentImgIdx}, resultR{currentImgIdx}, x1, x2, newX);
     outResultX(commonIdx, :) = newX;
