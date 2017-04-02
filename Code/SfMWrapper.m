@@ -16,7 +16,7 @@ disp('Outliers rejection done...')
 
 %% First image pair
 initialImage1 = 1;
-initialImage2 = 2;
+initialImage2 = 3;
 
 [x1, x2, idx] = findCommonMatch(Mx, My, inliersV, initialImage1, initialImage2);
 

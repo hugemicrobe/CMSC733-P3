@@ -10,7 +10,7 @@ function [C,R,idx] = PnPRANSAC(X, x, K)
 
 %% Your code goes here
 maxIter = 1000;
-threshold = 0.001;
+threshold = 1;
 
 N = size(x, 1);
 bestNinliers = 0;
@@ -36,11 +36,11 @@ function error = evaluateCR(X, x, K, C, R)
 N = size(X, 1);
 homX = [X, ones(N, 1)];
 
-P = K * [R, -R * C];
+P = K * [R, -R*C];
 pHomX = P * homX'; % 3 x N
 pHomX = pHomX';
 pHomX = pHomX ./ repmat(pHomX(:, 3), 1, 3);
-dis = x - pHomX(:, 1:2);
-error = sum(dis .^ 2, 2);
+dist = x - pHomX(:, 1:2);
+error = sum(dist .^ 2, 2);
 
 end
