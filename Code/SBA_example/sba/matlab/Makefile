@@ -6,7 +6,7 @@ MEX=mex
 MEXCFLAGS=-I.. -O LDFLAGS='-fPIC' -largeArrayDims #-g
 # WHEN USING LAPACK, CHANGE THE NEXT TWO LINES TO WHERE YOUR COMPILED LAPACK/BLAS & F2C LIBS ARE!
 LAPACKBLASLIBS_PATH=/usr/lib
-F2CLIBS_PATH=/usr/local/lib
+F2CLIBS_PATH=/usr/lib/x86_64-linux-gnu
 
 # I had to specify the absolute path to the libs, otherwise mex linked against their dynamic versions...
 INTFACESRCS=sba.c
