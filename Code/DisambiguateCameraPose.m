@@ -27,11 +27,15 @@ for i = 1:nConfig
     
     N = size(X, 1);
     ch = (X - repmat(C', N, 1)) * R(3, :)';
-    nFront(i) = sum(ch > 0);
+    chZ = X(:, 3);
+    
+    nFront(i) = sum((ch > 0) & (chZ > 0));
 end
 
 % iOut = find(nFront == max(nFront));
-[~, iOut] = max(nFront);
+[m, iOut] = max(nFront);
+
+fprintf('Points in front of the camera: %d/%d\n', m, numel(chZ));
 
 C = Cset{iOut};
 R = Rset{iOut};
